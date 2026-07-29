@@ -11,6 +11,7 @@ public class SlotReelGameClassicEngineApplication {
 
     public static void main(String[] args) {
 
+        log.info("Starting SlotReelGameClassicEngineApplication...");
         ConfigurableApplicationContext context = SpringApplication.run(SlotReelGameClassicEngineApplication.class, args);
         String appName = context.getEnvironment().getProperty("spring.application.name");
         String port = context.getEnvironment().getProperty("server.port");

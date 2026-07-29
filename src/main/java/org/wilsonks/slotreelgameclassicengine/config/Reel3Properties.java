@@ -13,19 +13,19 @@ import java.util.List;
 @Setter
 @Slf4j
 @Component
-@ConfigurationProperties(prefix = "reel1")
-public class Reel1Properties {
+@ConfigurationProperties(prefix = "reel3")
+public class Reel3Properties {
     private List<String> strip;
     private List<List<Integer>> spread;
 
     @PostConstruct
     public void validate() {
         if (strip == null || strip.isEmpty()) {
-            throw new IllegalArgumentException("Reel1 strip configuration is missing or empty.");
+            throw new IllegalArgumentException("Reel3 strip configuration is missing or empty.");
         }
         if (spread == null || spread.isEmpty()) {
-            throw new IllegalArgumentException("Reel1 coin1 configuration is missing or empty.");
+            throw new IllegalArgumentException("Reel3 coin1 configuration is missing or empty.");
         }
-        log.info("Reel1Properties loaded successfully with strip size: {} and coin1-spread size: {}", strip.size(), spread.size());
+        log.info("Reel3Properties loaded successfully with strip size: {} and coin1-spread size: {}", strip.size(), spread.size());
     }
 }

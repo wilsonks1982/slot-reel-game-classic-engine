@@ -6,8 +6,10 @@ spring:
   config:
     import:
     - "classpath:gamemath/paytable.yml"
-    - "classpath:gamemath/payout.yml"
+    - "classpath:gamemath/gameconfig.yml"
     - "classpath:gamemath/reel1.yml"
+    - "classpath:gamemath/reel2.yml"
+    - "classpath:gamemath/reel3.yml"
 
 server:
   port: ${SERVER_PORT:9071}
@@ -22,3 +24,7 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}:${random.value}
 
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{correlationId}] [%X{userId}] [%X{type}] [%X{role}] [%-5level][%logger{0}] - %msg%n"

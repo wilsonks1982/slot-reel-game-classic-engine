@@ -7,38 +7,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
 @Slf4j
-@ConfigurationProperties(prefix = "paytable")
 @Component
+@ConfigurationProperties(prefix = "paytable")
 public class PayTableProperties {
-    private List<Integer> betsValues;
-    private List<Integer> denomValues;
-    private int defaultBetIndex;
-    private int defaultDenomIndex;
-    private List<List<Integer>> betValues;
+    private Map<String, Integer> wins;
 
     @PostConstruct
-    public void validateConfig() {
-        if (betsValues == null || betsValues.isEmpty()) {
-            throw new IllegalArgumentException("Bets values cannot be null or empty");
+    public void init() {
+        if (wins == null || wins.isEmpty()) {
+            throw new IllegalStateException("Combination payouts configuration is missing or empty.");
         }
-        if (denomValues == null || denomValues.isEmpty()) {
-            throw new IllegalArgumentException("Denomination values cannot be null or empty");
-        }
-        if (defaultBetIndex < 0 || defaultBetIndex >= betsValues.size()) {
-            throw new IllegalArgumentException("Default bet index is out of bounds");
-        }
-        if (defaultDenomIndex < 0 || defaultDenomIndex >= denomValues.size()) {
-            throw new IllegalArgumentException("Default denomination index is out of bounds");
-        }
-        log.info("✅ PayTableConfig initialized with betsValues: {}", betsValues);
-        log.info("✅ PayTableConfig initialized with denomValues: {}", denomValues);
-        log.info("✅ PayTableConfig initialized with defaultBetIndex: {}", defaultBetIndex);
-        log.info("✅ PayTableConfig initialized with defaultDenomIndex: {}", defaultDenomIndex);
-        log.info("✅ PayTableConfig initialized with betValues: {}", betValues);
+        wins.forEach((combination, payout) -> {
+            if (payout < 0) {
+                throw new IllegalStateException("Payout for combination " + combination + " cannot be negative.");
+            }
+            log.info("Loaded payout for combination {}: {}", combination, payout);
+        });
+
     }
 }
