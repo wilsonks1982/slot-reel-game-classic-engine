@@ -2,7 +2,7 @@ gameconfig:
   bets-values: [1, 2, 3, 4, 5]
   denom-values: [1, 2, 5, 10, 20, 50, 100, 200, 500]
   default-bet-index: 0
-  default-denom-index: 3
+  default-denom-index: 0
   bet-values:
     - [1, 2, 5, 10, 20, 50, 100, 200, 500]
     - [2, 4, 10, 20, 40, 100, 200, 400, 1000]

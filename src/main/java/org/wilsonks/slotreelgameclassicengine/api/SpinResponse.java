@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -14,14 +16,21 @@ public class SpinResponse {
     private String egmId;
     private Integer betIndex;
     private Integer denomIndex;
+    private Integer bet;
+    private Integer denom;
     private Integer betAmount;
-    private Integer reel1Index = -1;
-    private Integer reel2Index = -1;
-    private Integer reel3Index = -1;
-    private String reel1Symbol = "";
-    private String reel2Symbol = "";
-    private String reel3Symbol = "";
+    private String reelCombination;
+
+    @Builder.Default
+    private String hitPattern = "NONE";
+    @Builder.Default
+    private List<Integer> reelIndexes = List.of(-1, -1, -1);
+    @Builder.Default
+    private List<String> reelSymbols = List.of("--", "--", "--");
+    @Builder.Default
     private Long winAmount = 0L;
-    private Long bonusAmount = 0L;
+    @Builder.Default
+    private Long bonusWinAmount = 0L;
+    @Builder.Default
     private Long totalWinAmount = 0L;
 }

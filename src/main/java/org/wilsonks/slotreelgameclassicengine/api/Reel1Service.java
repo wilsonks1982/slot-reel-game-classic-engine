@@ -16,7 +16,6 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class Reel1Service {
     private final Reel1Properties reel1Properties;
-    private final SecureRandom secureRandom;
 
     @PostConstruct
     public void init() {
@@ -28,10 +27,10 @@ public class Reel1Service {
                 });
     }
 
-    public int getReelStopVirtualPosition() {
+    public int getReelStopVirtualPosition(SecureRandom secureRandom) {
         return secureRandom.nextInt(128);
     }
-    public int getReelStopIndex(int virtualReelPos) {
+    public int getReelStopIndex(Integer betIndex, int virtualReelPos) {
         int actualReelPos = 0;
         for (int i = 0; i < reel1Properties.getSpread().size();i++) {
             if(reel1Properties.getSpread().get(i).contains(virtualReelPos)) {
