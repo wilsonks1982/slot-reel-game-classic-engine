@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.wilsonks.slotreelgameclassicengine.config.Reel3Properties;
 
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -25,10 +24,6 @@ public class Reel3Service {
                     List<Integer> spread = reel3Properties.getSpread().get(i);
                     log.info("Reel 3 - Symbol: {}, Spread: {}", symbol, spread);
                 });
-    }
-
-    public int getReelStopVirtualPosition(SecureRandom secureRandom) {
-        return secureRandom.nextInt(128);
     }
 
     public int getReelStopIndex(Integer betIndex, int virtualReelPos) {

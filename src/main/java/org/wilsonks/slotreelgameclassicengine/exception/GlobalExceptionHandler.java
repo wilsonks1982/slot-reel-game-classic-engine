@@ -1,5 +1,6 @@
 package org.wilsonks.slotreelgameclassicengine.exception;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected @Nullable ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    protected @Nullable ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, "Validation failed for one or more arguments.");
         problemDetail.setTitle("Validation Error");
         problemDetail.setProperty("errors", ex.getBindingResult().getFieldErrors().stream()

@@ -2,7 +2,6 @@ package org.wilsonks.slotreelgameclassicengine.api;
 
 
 import jakarta.annotation.PostConstruct;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -55,9 +54,9 @@ public class SpinService {
 
         Integer betAmount = bet * denom;
 
-        Integer reel1Index = reel1Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
-        Integer reel2Index = reel2Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
-        Integer reel3Index = reel3Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
+        int reel1Index = reel1Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
+        int reel2Index = reel2Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
+        int reel3Index = reel3Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
 
         String reel1Symbol = reel1Service.getSymbolAtIndex(reel1Index);
         String reel2Symbol = reel2Service.getSymbolAtIndex(reel2Index);

@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.wilsonks.slotreelgameclassicengine.config.Reel2Properties;
 
-import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -27,9 +26,6 @@ public class Reel2Service {
                 });
     }
 
-    public int getReelStopVirtualPosition(SecureRandom secureRandom) {
-        return secureRandom.nextInt(128);
-    }
     public int getReelStopIndex(Integer betIndex, int virtualReelPos) {
         int actualReelPos = 0;
         for (int i = 0; i < reel2Properties.getSpread().size(); i++) {
