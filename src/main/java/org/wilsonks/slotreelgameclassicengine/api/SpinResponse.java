@@ -4,33 +4,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
 @Setter
 @Builder
 public class SpinResponse {
-    private String referenceId;
+    private String spinId;
     private String playerUid;
     private String gameId;
     private String egmId;
-    private Integer betIndex;
-    private Integer denomIndex;
-    private Integer bet;
-    private Integer denom;
-    private Integer betAmount;
-    private String reelCombination;
+    private BigDecimal betAmount;
+    private Integer coin;
+    private Integer denomination;
 
-    @Builder.Default
-    private String hitPattern = "NONE";
-    @Builder.Default
-    private List<Integer> reelIndexes = List.of(-1, -1, -1);
-    @Builder.Default
-    private List<String> reelSymbols = List.of("--", "--", "--");
-    @Builder.Default
-    private Long winAmount = 0L;
-    @Builder.Default
-    private Long bonusWinAmount = 0L;
-    @Builder.Default
-    private Long totalWinAmount = 0L;
+    private String reelCombination;
+    private String hitPattern;
+    private List<Integer> reelIndexes;
+    private List<String> reelSymbols;
+    private BigDecimal winAmount;
+    private BigDecimal bonusWinAmount;
+    private BigDecimal totalWinAmount;
 }

@@ -1,16 +1,19 @@
 package org.wilsonks.slotreelgameclassicengine.api;
 
+import java.math.BigDecimal;
+
 public record SpinRequest(
-        String referenceId,
+        String spinId,
         String playerUid,
         String egmId,
         String gameId,
-        Integer betIndex,
-        Integer denomIndex
+        BigDecimal betAmount,
+        Integer coin,
+        Integer denomination
 ) {
     public SpinRequest {
-        if (referenceId == null || referenceId.isBlank()) {
-            throw new IllegalArgumentException("referenceId cannot be null or blank");
+        if (spinId == null || spinId.isBlank()) {
+            throw new IllegalArgumentException("spinId cannot be null or blank");
         }
         if (playerUid == null || playerUid.isBlank()) {
             throw new IllegalArgumentException("playerUid cannot be null or blank");
@@ -21,12 +24,16 @@ public record SpinRequest(
         if (gameId == null || gameId.isBlank()) {
             throw new IllegalArgumentException("gameId cannot be null or blank");
         }
-        if (betIndex < 0) {
-            throw new IllegalArgumentException("betIndex cannot be negative");
+        if (betAmount == null || betAmount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("betAmount must be a positive number");
         }
-        if (denomIndex < 0) {
-            throw new IllegalArgumentException("denomIndex cannot be negative");
+        if (coin == null || coin <= 0) {
+            throw new IllegalArgumentException("coin must be a positive integer");
         }
+        if (denomination == null || denomination <= 0) {
+            throw new IllegalArgumentException("denomination must be a positive integer");
+        }
+
 
     }
 }

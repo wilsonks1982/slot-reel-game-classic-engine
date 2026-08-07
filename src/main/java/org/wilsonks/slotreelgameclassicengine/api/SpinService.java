@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.wilsonks.slotreelgameclassicengine.config.GameConfigProperties;
 import org.wilsonks.slotreelgameclassicengine.config.PayTableProperties;
 
+import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class SpinService {
-    public static final Integer REEL_STRIP_SIZE = 128;
+    public static final Integer VIRTUAL_REEL_STRIP_SIZE = 128;
     private final PayTableProperties payoutProperties;
     private final GameConfigProperties gameConfigProperties;
     private final SecureRandom secureRandom;
@@ -49,14 +50,10 @@ public class SpinService {
     }
 
     public SpinResponse spin(SpinRequest request) {
-        Integer bet = gameConfigProperties.getBetsValues().get(request.betIndex());
-        Integer denom = gameConfigProperties.getDenomValues().get(request.denomIndex());
 
-        Integer betAmount = bet * denom;
-
-        int reel1Index = reel1Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
-        int reel2Index = reel2Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
-        int reel3Index = reel3Service.getReelStopIndex(request.betIndex(), secureRandom.nextInt(REEL_STRIP_SIZE));
+        int reel1Index = reel1Service.getReelStopIndex(request.coin(), secureRandom.nextInt(VIRTUAL_REEL_STRIP_SIZE));
+        int reel2Index = reel2Service.getReelStopIndex(request.coin(), secureRandom.nextInt(VIRTUAL_REEL_STRIP_SIZE));
+        int reel3Index = reel3Service.getReelStopIndex(request.coin(), secureRandom.nextInt(VIRTUAL_REEL_STRIP_SIZE));
 
         String reel1Symbol = reel1Service.getSymbolAtIndex(reel1Index);
         String reel2Symbol = reel2Service.getSymbolAtIndex(reel2Index);
@@ -64,12 +61,12 @@ public class SpinService {
 
         String reelCombination = String.join("-", reel1Symbol, reel2Symbol, reel3Symbol);
 
-        long winAmount = 0L;
+        BigDecimal winAmount = BigDecimal.ZERO;
         String matchingPattern = "NONE";
 
         for (PayRule rule : compiledRules) {
             if (rule.regexPattern().matcher(reelCombination).matches()) {
-                winAmount = (long) rule.payout() * bet * denom;
+                winAmount = request.betAmount().multiply(BigDecimal.valueOf(rule.payout()));
                 matchingPattern = rule.originalPattern();
                 break;
             }
@@ -78,20 +75,20 @@ public class SpinService {
         log.info("Spin Result: {} | Hit Pattern: {} | Total Win: {}", reelCombination, matchingPattern, winAmount);
 
         return SpinResponse.builder()
-                .referenceId(request.referenceId())
+                .spinId(request.spinId())
                 .egmId(request.egmId())
                 .playerUid(request.playerUid())
                 .gameId(request.gameId())
-                .betIndex(request.betIndex())
-                .denomIndex(request.denomIndex())
-                .bet(bet)
-                .denom(denom)
-                .betAmount(betAmount)
+                .coin(request.coin())
+                .denomination(request.denomination())
+                .betAmount(request.betAmount())
                 .reelCombination(reelCombination)
                 .hitPattern(matchingPattern)
                 .winAmount(winAmount)
                 .reelIndexes(List.of(reel1Index, reel2Index, reel3Index))
                 .reelSymbols(List.of(reel1Symbol, reel2Symbol, reel3Symbol))
+                .bonusWinAmount(BigDecimal.ZERO) // Assuming no bonus logic for now
+                .totalWinAmount(winAmount) // Assuming no bonus logic for now
                 .build();
 
     }
