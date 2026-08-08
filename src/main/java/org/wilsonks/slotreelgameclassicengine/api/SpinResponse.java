@@ -25,5 +25,4 @@ public class SpinResponse {
     private List<String> reelSymbols;
     private BigDecimal winAmount;
     private BigDecimal bonusWinAmount;
-    private BigDecimal totalWinAmount;
 }

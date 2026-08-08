@@ -88,7 +88,6 @@ public class SpinService {
                 .reelIndexes(List.of(reel1Index, reel2Index, reel3Index))
                 .reelSymbols(List.of(reel1Symbol, reel2Symbol, reel3Symbol))
                 .bonusWinAmount(BigDecimal.ZERO) // Assuming no bonus logic for now
-                .totalWinAmount(winAmount) // Assuming no bonus logic for now
                 .build();
 
     }
